@@ -10,7 +10,7 @@ export const useSocket = () => {
 
 export const SocketProvider = (prop) => {
 
-    const socket = useMemo(() => io('https://socket-webrtc.vercel.app'), []);
+    const socket = useMemo(() => io('https://socket-webrtc.vercel.app/api/socket'), []);
 
 
     return (
