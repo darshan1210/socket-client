@@ -10,7 +10,8 @@ export const useSocket = () => {
 
 export const SocketProvider = (prop) => {
 
-    const socket = useMemo(() => io('https://socket-webrtc-7qxb.onrender.com/api/socket'), []);
+    // const socket = useMemo(() => io('http://192.168.1.26:8000'), []);
+    const socket = useMemo(() => io('https://socket-webrtc-7qxb.onrender.com'), []);
 
 
     return (
