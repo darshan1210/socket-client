@@ -16,7 +16,7 @@ const RoomPage = () => {
 
     const handleCallUser = useCallback(async () => {
         const stream = await navigator.mediaDevices.getUserMedia({
-            audio: true,
+            audio: { echoCancellation: true },
             video: true,
         });
         const offer = await peer.getOffer();
@@ -28,7 +28,7 @@ const RoomPage = () => {
         async ({ from, offer }) => {
             setRemoteSocketId(from);
             const stream = await navigator.mediaDevices.getUserMedia({
-                audio: true,
+                audio: { echoCancellation: true },
                 video: true,
             });
             setMyStream(stream);
@@ -40,10 +40,18 @@ const RoomPage = () => {
     );
 
     const sendStreams = useCallback(() => {
+        if (!myStream) return;
+        const senders = peer.peer.getSenders();
+        const trackIds = senders.map((sender) => sender.track?.id);
+
         for (const track of myStream.getTracks()) {
-            peer.peer.addTrack(track, myStream);
+            if (!trackIds.includes(track.id)) {
+                peer.peer.addTrack(track, myStream);
+            }
         }
     }, [myStream]);
+
+
 
     const handleCallAccepted = useCallback(
         ({ from, ans }) => {
@@ -120,6 +128,7 @@ const RoomPage = () => {
                     <h1>My Stream</h1>
                     <ReactPlayer
                         playing
+                        muted
                         height="100px"
                         width="200px"
                         url={myStream}
