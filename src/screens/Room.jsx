@@ -123,26 +123,28 @@ const RoomPage = () => {
             <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
             {myStream && <button onClick={sendStreams}>Send Stream</button>}
             {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
+
+            {remoteStream && (
+                <>
+                    <h1>Remote Video</h1>
+                    <ReactPlayer
+                        playing
+                        height="300px"
+                        width="400px"
+                        url={remoteStream}
+                    />
+                </>
+            )}
+
             {myStream && (
                 <>
-                    <h1>My Stream</h1>
+                    <h1>My video</h1>
                     <ReactPlayer
                         playing
                         muted
                         height="100px"
                         width="200px"
                         url={myStream}
-                    />
-                </>
-            )}
-            {remoteStream && (
-                <>
-                    <h1>Remote Stream</h1>
-                    <ReactPlayer
-                        playing
-                        height="100px"
-                        width="200px"
-                        url={remoteStream}
                     />
                 </>
             )}
